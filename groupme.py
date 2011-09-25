@@ -5,31 +5,37 @@ import json
 import ConfigParser
 
 
-class groupme_auth(object):
+def cfg_to_dict():
+	config = ConfigParser.ConfigParser()
+	config.read('keys.cfg')
+	key_list = config.items('groupme')
+	keys = {}
+	for key in key_list:
+		keys[key[0]] = key[1]
 
-#POST https://api.groupme.com/clients/tokens
-#  ?client_id=YOUR_CLIENT_ID
-#  &client_secret=YOUR_CLIENT_SECRET
-#  &device_id=YOUR_DEVICE_ID
-#  &phone_number=YOUR_PHONE_NUMBER
-#  &grant_type=client_credentials
+	return keys
 
-#POST https://api.groupme.com/clients/tokens
-#  ?client_id=YOUR_CLIENT_ID
-#  &client_secret=YOUR_CLIENT_SECRET
-#  &device_id=YOUR_DEVICE_ID
-#  &phone_number=YOUR_PHONE_NUMBER
-#  &grant_type=authorization_code
-#  &code=YOUR_AUTHORIZATION_CODE
+
+class auth(object):
+
+	#POST https://api.groupme.com/clients/tokens
+	#  ?client_id=YOUR_CLIENT_ID
+	#  &client_secret=YOUR_CLIENT_SECRET
+	#  &device_id=YOUR_DEVICE_ID
+	#  &phone_number=YOUR_PHONE_NUMBER
+	#  &grant_type=client_credentials
+
+	#POST https://api.groupme.com/clients/tokens
+	#  ?client_id=YOUR_CLIENT_ID
+	#  &client_secret=YOUR_CLIENT_SECRET
+	#  &device_id=YOUR_DEVICE_ID
+	#  &phone_number=YOUR_PHONE_NUMBER
+	#  &grant_type=authorization_code
+	#  &code=YOUR_AUTHORIZATION_CODE
 
 	def __init__(self):
 		self.http = httplib2.Http()
-		config = ConfigParser.ConfigParser()
-		config.read('keys.cfg')
-		key_list = config.items('groupme')
-		self.keys = {}
-		for key in key_list:
-			self.keys[key[0]] = key[1]
+		self.keys = cfg_to_dict()
 
 	def test_oauth(self):
 		pass
@@ -40,6 +46,7 @@ class groupme_auth(object):
 
 	def request_token(self):
 
+		url = 'https://api.groupme.com/clients/tokens'
 		payload = dict(
 					client_id = self.keys['client_id'],
 					client_secret = self.keys['client_secret'],
@@ -47,17 +54,47 @@ class groupme_auth(object):
 					phone_number = self.keys['phone_number'],
 					grant_type = 'authorization_code',
 					code = self.keys['code'])
-		
 		payload = urllib.urlencode(payload)
-		url = 'https://api.groupme.com/clients/tokens'
+		
 		resp, content = self.http.request(url, 'POST', payload)
 		content = json.loads(content)
 		self.keys['token'] = content[u'response'][u'access_token']
 
 		return self.keys['token']
 
+
+class interact(object):
+
+	#GET https://api.groupme.com/clients/groups
+	#  ?client_id=YOUR_CLIENT_ID
+	#  &client_secret=YOUR_CLIENT_SECRET
+	#  &token=YOUR_ACCESS_TOKEN
+
+	def __init__(self, token):
+		self.token = token
+		self.http = httplib2.Http()
+		self.keys = cfg_to_dict()
+
+	def list_groups(self):
+
+		url = 'https://api.groupme.com/clients/groups?'
+		payload = dict(
+					client_id = self.keys['client_id'],
+					client_secret = self.keys['client_secret'],
+					token = self.token)
+		payload = urllib.urlencode(payload)
+
+		response, content = self.http.request(url+payload, 'GET')
+
+		return content
+
+
 if __name__ == "__main__":
 
-	auth = groupme_auth()
-	print auth.request_token()
+	auth = auth()
+	token = auth.request_token()
+	print token
+
+	interact = interact(token)
+	print interact.list_groups()
 
