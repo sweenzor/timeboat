@@ -34,6 +34,10 @@ class groupme_auth(object):
 	def test_oauth(self):
 		pass
 
+	def request_code(self):
+		"""Check if code exists, if not request with client credentials"""
+		pass
+
 	def request_token(self):
 
 		payload = dict(
@@ -48,9 +52,9 @@ class groupme_auth(object):
 		url = 'https://api.groupme.com/clients/tokens'
 		resp, content = self.http.request(url, 'POST', payload)
 		content = json.loads(content)
-		self.token = content[u'response'][u'access_token']
+		self.keys['token'] = content[u'response'][u'access_token']
 
-		return self.token
+		return self.keys['token']
 
 if __name__ == "__main__":
 
