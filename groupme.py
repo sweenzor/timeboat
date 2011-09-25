@@ -65,11 +65,6 @@ class auth(object):
 
 class interact(object):
 
-	#GET https://api.groupme.com/clients/groups
-	#  ?client_id=YOUR_CLIENT_ID
-	#  &client_secret=YOUR_CLIENT_SECRET
-	#  &token=YOUR_ACCESS_TOKEN
-
 	def __init__(self, token):
 		self.token = token
 		self.http = httplib2.Http()
@@ -77,7 +72,30 @@ class interact(object):
 
 	def list_groups(self):
 
+		#GET https://api.groupme.com/clients/groups
+		#  ?client_id=YOUR_CLIENT_ID
+		#  &client_secret=YOUR_CLIENT_SECRET
+		#  &token=YOUR_ACCESS_TOKEN
+
 		url = 'https://api.groupme.com/clients/groups?'
+		payload = dict(
+					client_id = self.keys['client_id'],
+					client_secret = self.keys['client_secret'],
+					token = self.token)
+		payload = urllib.urlencode(payload)
+
+		response, content = self.http.request(url+payload, 'GET')
+
+		return content
+	
+	def check_membership(self, group):
+
+		#GET https://api.groupme.com/clients/groups/GROUP_ID/memberships
+		#  ?client_id=YOUR_CLIENT_ID
+		#  &client_secret=YOUR_CLIENT_SECRET      
+		#  &token=YOUR_ACCESS_TOKEN
+
+		url = 'https://api.groupme.com/clients/groups/%s/memberships?' % group
 		payload = dict(
 					client_id = self.keys['client_id'],
 					client_secret = self.keys['client_secret'],
@@ -97,4 +115,5 @@ if __name__ == "__main__":
 
 	interact = interact(token)
 	print interact.list_groups()
+	print interact.check_membership(1434247)
 
