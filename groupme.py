@@ -22,30 +22,29 @@ class groupme_auth(object):
 #  &code=YOUR_AUTHORIZATION_CODE
 
 	def __init__(self):
+		self.http = httplib2.Http()
+		self.config = ConfigParser.ConfigParser()
+		self.config.read('keys.cfg')
+
+	def test_oauth(self):
 		pass
+
 
 	def request_token(self):
 
-		http = httplib2.Http()
-
-		config = ConfigParser.ConfigParser()
-		config.read('keys.cfg')
-		keys = dict(
-				client_id = config.get('groupme', 'client_id', 0),
-					client_secret = config.get('groupme', 'client_secret', 0),
-					device_id = config.get('groupme', 'device_id', 0),
-					phone_number = config.get('groupme', 'phone_number', 0),
+		keys = dict(client_id = self.config.get('groupme', 'client_id', 0),
+					client_secret = self.config.get('groupme', 'client_secret', 0),
+					device_id = self.config.get('groupme', 'device_id', 0),
+					phone_number = self.config.get('groupme', 'phone_number', 0),
 					grant_type = 'authorization_code',
-					code = config.get('groupme', 'code', 0))
+					code = self.config.get('groupme', 'code', 0))
 		
-
-		print urllib.urlencode(keys)
-		resp, content = http.request("https://api.groupme.com/clients/tokens", "POST", urllib.urlencode(keys))
-		print content
-		print resp
+		payload = urllib.urlencode(keys)
+		resp, content = self.http.request("https://api.groupme.com/clients/tokens", "POST", payload)
+		return content
 
 if __name__ == "__main__":
 
 	auth = groupme_auth()
-	auth.request_token()
+	print auth.request_token()
 
