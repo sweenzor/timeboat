@@ -21,19 +21,19 @@ def cfg_to_dict():
 class auth(object):
 
 	#POST https://api.groupme.com/clients/tokens
-	#  ?client_id=YOUR_CLIENT_ID
-	#  &client_secret=YOUR_CLIENT_SECRET
-	#  &device_id=YOUR_DEVICE_ID
-	#  &phone_number=YOUR_PHONE_NUMBER
-	#  &grant_type=client_credentials
+	#	?client_id=YOUR_CLIENT_ID
+	#	&client_secret=YOUR_CLIENT_SECRET
+	#	&device_id=YOUR_DEVICE_ID
+	#	&phone_number=YOUR_PHONE_NUMBER
+	#	&grant_type=client_credentials
 
 	#POST https://api.groupme.com/clients/tokens
-	#  ?client_id=YOUR_CLIENT_ID
-	#  &client_secret=YOUR_CLIENT_SECRET
-	#  &device_id=YOUR_DEVICE_ID
-	#  &phone_number=YOUR_PHONE_NUMBER
-	#  &grant_type=authorization_code
-	#  &code=YOUR_AUTHORIZATION_CODE
+	#	?client_id=YOUR_CLIENT_ID
+	#	&client_secret=YOUR_CLIENT_SECRET
+	#	&device_id=YOUR_DEVICE_ID
+	#	&phone_number=YOUR_PHONE_NUMBER
+	#	&grant_type=authorization_code
+	#	&code=YOUR_AUTHORIZATION_CODE
 
 	def __init__(self):
 		self.http = httplib2.Http()
@@ -75,9 +75,9 @@ class interact(object):
 	def list_groups(self):
 
 		#GET https://api.groupme.com/clients/groups
-		#  ?client_id=YOUR_CLIENT_ID
-		#  &client_secret=YOUR_CLIENT_SECRET
-		#  &token=YOUR_ACCESS_TOKEN
+		#	?client_id=YOUR_CLIENT_ID
+		#	&client_secret=YOUR_CLIENT_SECRET
+		#	&token=YOUR_ACCESS_TOKEN
 
 		url = 'https://api.groupme.com/clients/groups?'
 		payload = dict(
@@ -93,9 +93,9 @@ class interact(object):
 	def check_membership(self, group_id):
 
 		#GET https://api.groupme.com/clients/groups/GROUP_ID/memberships
-		#  ?client_id=YOUR_CLIENT_ID
-		#  &client_secret=YOUR_CLIENT_SECRET
-		#  &token=YOUR_ACCESS_TOKEN
+		#	?client_id=YOUR_CLIENT_ID
+		#	&client_secret=YOUR_CLIENT_SECRET
+		#	&token=YOUR_ACCESS_TOKEN
 
 		url = 'https://api.groupme.com/clients/groups/%s/memberships?' % group_id
 		payload = dict(
@@ -111,9 +111,9 @@ class interact(object):
 	def list_lines(self, group_id):
 
 		#GET https://api.groupme.com/clients/groups/GROUP_ID/lines
-		#  ?client_id=YOUR_CLIENT_ID
-		#  &client_secret=YOUR_CLIENT_SECRET
-		#  &token=YOUR_ACCESS_TOKEN	
+		#	?client_id=YOUR_CLIENT_ID
+		#	&client_secret=YOUR_CLIENT_SECRET
+		#	&token=YOUR_ACCESS_TOKEN	
 
 		url = 'https://api.groupme.com/clients/groups/%s/lines?' % group_id
 		payload = dict(
@@ -130,27 +130,27 @@ class interact(object):
 	def create_group(self, members):
 
 		#POST https://api.groupme.com/clients/groups
-		#  ?client_id=YOUR_CLIENT_ID
-		#  &client_secret=YOUR_CLIENT_SECRET      
-		#  &token=YOUR_ACCESS_TOKEN
+		#	?client_id=YOUR_CLIENT_ID
+		#	&client_secret=YOUR_CLIENT_SECRET      
+		#	&token=YOUR_ACCESS_TOKEN
 		#{
-		#  group : {
-		#    topic       : "Night Out",
-		#    memberships : [
-		#      {
-		#        name          : "Bob",
-		#        phone_number  : "+1 2125555555"
-		#      },
-		#      {
-		#        name          : "Anne",
-		#        email         : "anne@example.com"
-		#      },
-		#      {
-		#        name          : "John",
-		#        user_id       : "1234567892"
-		#      }
-		#    ]
-		#  }
+		#	group : {
+		#		topic		:	"Night Out",
+		#		memberships	:	[
+		#			{
+		#				name			:	"Bob",
+		#				phone_number	:	"+1 2125555555"
+		#			},
+		#			{
+		#				name			:	"Anne",
+		#				email			:	"anne@example.com"
+		#			},
+		#			{
+		#				name			:	"John",
+		#				user_id			:	"1234567892"
+		#			}
+		#		]
+		#	}
 		#}
 
 		pass
