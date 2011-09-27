@@ -3,6 +3,7 @@
 import httplib2
 import urllib
 import json
+import uuid
 
 import ConfigParser
 
@@ -131,7 +132,7 @@ class interact(object):
 
 		#POST https://api.groupme.com/clients/groups
 		#	?client_id=YOUR_CLIENT_ID
-		#	&client_secret=YOUR_CLIENT_SECRET      
+		#	&client_secret=YOUR_CLIENT_SECRET
 		#	&token=YOUR_ACCESS_TOKEN
 		#{
 		#	group : {
@@ -168,7 +169,50 @@ class interact(object):
 		payload = urllib.urlencode(payload)
 
 		resp, content = self.http.request(url+payload, 'POST', json.dumps(spec))
-		print resp, content
+
+		return content
+
+	def post_line(self, group_id, line_text):
+
+		#POST https://api.groupme.com/clients/groups/GROUP_ID/lines
+		#	?client_id=YOUR_CLIENT_ID
+		#	&client_secret=YOUR_CLIENT_SECRET
+		#	&token=YOUR_ACCESS_TOKEN
+		#{
+		#	line : {
+		#		source_guid	:	"YOUR_GUID_HERE",
+		#		text		:	"Hello world",
+		#		picture_url	:	null,
+		#		location	:	{
+		#			lat                    : "40.738206",
+		#			lng                    : "-73.993285",
+		#			name                   : "GroupMe HQ",
+		#			foursquare_venue_id    : "1234567890",
+		#			foursquare_checkin     : true
+		#		}
+		#	}
+		#}
+
+		spec =	{'line': 
+					{
+						'source_guid': str(uuid.uuid1()),
+						'text': line_text,
+						#'picture_url': '',
+						#'location': ''
+					}
+				}
+
+		url = 'https://api.groupme.com/clients/groups/%s/lines?' % group_id
+		payload = dict(
+					client_id = self.keys['client_id'],
+					client_secret = self.keys['client_secret'],
+					token = self.token)
+		payload = urllib.urlencode(payload)
+
+		resp, content = self.http.request(url+payload, 'POST', json.dumps(spec))
+
+		return content
+
 
 if __name__ == "__main__":
 
@@ -177,9 +221,16 @@ if __name__ == "__main__":
 	print token
 
 	interact = interact(token)
+
+
+	# check basic interaction
+
 	#print interact.list_groups()
 	#print interact.check_membership(1434247)
 	#print interact.list_lines(1434247)
+
+
+	# create new group:
 
 	membs = [
 				{
@@ -192,4 +243,11 @@ if __name__ == "__main__":
 				}		
 			]
 
-	print interact.create_group('devgroup', membs)
+	#print interact.create_group('devgroup', membs)
+
+
+	# interact with that group
+
+	group_id = 1452503
+	print interact.list_lines(group_id)
+	print interact.post_line(group_id, 'hello to u!')
