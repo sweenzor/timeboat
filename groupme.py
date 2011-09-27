@@ -127,6 +127,33 @@ class interact(object):
 
 		return content
 
+	def create_group(self, members):
+
+		#POST https://api.groupme.com/clients/groups
+		#  ?client_id=YOUR_CLIENT_ID
+		#  &client_secret=YOUR_CLIENT_SECRET      
+		#  &token=YOUR_ACCESS_TOKEN
+		#{
+		#  group : {
+		#    topic       : "Night Out",
+		#    memberships : [
+		#      {
+		#        name          : "Bob",
+		#        phone_number  : "+1 2125555555"
+		#      },
+		#      {
+		#        name          : "Anne",
+		#        email         : "anne@example.com"
+		#      },
+		#      {
+		#        name          : "John",
+		#        user_id       : "1234567892"
+		#      }
+		#    ]
+		#  }
+		#}
+
+		pass
 
 if __name__ == "__main__":
 
