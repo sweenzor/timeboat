@@ -127,7 +127,7 @@ class interact(object):
 
 		return content
 
-	def create_group(self, members):
+	def create_group(self, group_topic, members):
 
 		#POST https://api.groupme.com/clients/groups
 		#	?client_id=YOUR_CLIENT_ID
@@ -153,7 +153,22 @@ class interact(object):
 		#	}
 		#}
 
-		pass
+		spec =	{'group': 
+					{
+						'topic': group_topic,
+						'memberships': members
+					}
+				}
+
+		url = 'https://api.groupme.com/clients/groups?'
+		payload = dict(
+					client_id = self.keys['client_id'],
+					client_secret = self.keys['client_secret'],
+					token = self.token)
+		payload = urllib.urlencode(payload)
+
+		resp, content = self.http.request(url+payload, 'POST', json.dumps(spec))
+		print resp, content
 
 if __name__ == "__main__":
 
@@ -162,7 +177,19 @@ if __name__ == "__main__":
 	print token
 
 	interact = interact(token)
-	print interact.list_groups()
-	print interact.check_membership(1434247)
-	print interact.list_lines(1434247)
+	#print interact.list_groups()
+	#print interact.check_membership(1434247)
+	#print interact.list_lines(1434247)
 
+	membs = [
+				{
+					'name': 'lie-bot',
+					'user_id': '2523951'
+				},
+				{
+					'name': 'matt',
+					'user_id': '53878'
+				}		
+			]
+
+	print interact.create_group('devgroup', membs)
