@@ -216,21 +216,21 @@ class interact(object):
 
 if __name__ == "__main__":
 
+	## get a token
+
 	auth = auth()
 	token = auth.request_token()
-	print token
-
 	interact = interact(token)
 
 
-	# check basic interaction
+	## check basic interaction
 
 	#print interact.list_groups()
 	#print interact.check_membership(1434247)
 	#print interact.list_lines(1434247)
 
 
-	# create new group:
+	## create new group:
 
 	membs = [
 				{
@@ -246,8 +246,8 @@ if __name__ == "__main__":
 	#print interact.create_group('devgroup', membs)
 
 
-	# interact with that group
+	## interact with that group
 
 	group_id = 1452503
 	print interact.list_lines(group_id)
-	print interact.post_line(group_id, 'hello to u!')
+	print interact.post_line(group_id, 'hello world!')
