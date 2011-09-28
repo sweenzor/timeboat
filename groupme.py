@@ -122,11 +122,18 @@ class interact(object):
 					client_secret = self.keys['client_secret'],
 					token = self.token)
 		payload = urllib.urlencode(payload)
-		print payload
 
 		response, content = self.http.request(url+payload, 'GET')
 
 		return content
+
+	def last_line(self, group_id):
+
+		lines = self.list_lines(group_id)
+		name = json.loads(lines)[u'response'][u'lines'][0][u'name']
+		text = json.loads(lines)[u'response'][u'lines'][0][u'text']
+
+		return name,text
 
 	def create_group(self, group_topic, members):
 
@@ -249,5 +256,5 @@ if __name__ == "__main__":
 	## interact with that group
 
 	group_id = 1452503
-	print interact.list_lines(group_id)
-	print interact.post_line(group_id, 'hello world!')
+	print interact.last_line(group_id)
+	#print interact.post_line(group_id, 'hello world!')
