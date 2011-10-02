@@ -227,6 +227,7 @@ if __name__ == "__main__":
 
 	auth = auth()
 	token = auth.request_token()
+	print 'token = ', token
 	interact = interact(token)
 
 
