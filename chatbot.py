@@ -2,6 +2,7 @@
 
 import time
 import ConfigParser
+import random
 
 import groupme
 
@@ -12,9 +13,9 @@ interact = groupme.interact(token)
 config = ConfigParser.ConfigParser()
 config.read('keys.cfg')
 keys = config.items('groups')
-keys['group_id']
 
 
+phrases = ['ponys.', 'no pizza']
 
 
 current = ''
@@ -24,4 +25,7 @@ while True:
 		print str(name),': ',str(text)
 		current = str(text)
 
+	if current == 'Liebot, what is the saddest thing?':
+		interact.post_line(1452503, random.choice(phrases))
+		
 	time.sleep(0.5)
