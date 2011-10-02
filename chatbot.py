@@ -26,9 +26,9 @@ while True:
 		print str(name),': ',str(text)
 		current = str(text)
 
-	if current == 'Timebot, what is the saddest thing?':
+	if current == 'Timeboat, what is the saddest thing?':
 		interact.post_line(1469199, random.choice(phrases))
-	elif current[:7] == 'Timebot':
+	elif current[:8] == 'Timeboat':
 		interact.post_line(1469199, random.choice(answers))
 
 	time.sleep(0.5)
